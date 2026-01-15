@@ -4,10 +4,58 @@ const openSettingsBtn = document.getElementById("openSettings");
 const suggestEl = document.getElementById("suggest");
 const suggestListEl = document.getElementById("suggestList");
 const clearHistoryBtn = document.getElementById("clearHistory");
-const goLabel = goBtn.textContent;
+const suggestTitleEl = document.getElementById("suggestTitle");
+let goLabel = goBtn.textContent;
+let routingLabel = "Routing…";
+let currentLang = "en";
 
 const HISTORY_KEY = "searchHistory";
 const HISTORY_LIMIT = 20;
+
+const I18N = {
+  en: {
+    settings: "Settings",
+    search: "Search",
+    routing: "Routing…",
+    recent: "Recent searches",
+    clear: "Clear",
+    enter: "Enter"
+  },
+  zh: {
+    settings: "设置",
+    search: "搜索",
+    routing: "路由中…",
+    recent: "最近搜索",
+    clear: "清空",
+    enter: "回车"
+  }
+};
+
+function normalizeUiLanguage(value) {
+  return value === "zh" ? "zh" : "en";
+}
+
+async function loadUiLanguage() {
+  try {
+    const { settings } = await chrome.storage.sync.get("settings");
+    return normalizeUiLanguage(settings?.uiLanguage);
+  } catch (e) {
+    return "en";
+  }
+}
+
+function applyI18n(lang) {
+  const l = normalizeUiLanguage(lang);
+  const t = I18N[l] || I18N.en;
+  currentLang = l;
+  document.documentElement.lang = l === "zh" ? "zh-CN" : "en";
+  openSettingsBtn.setAttribute("aria-label", t.settings);
+  clearHistoryBtn.textContent = t.clear;
+  if (suggestTitleEl) suggestTitleEl.textContent = t.recent;
+  goLabel = t.search;
+  routingLabel = t.routing;
+  goBtn.textContent = goLabel;
+}
 
 function normalizeHistoryEntry(value) {
   const text = String(value || "").trim().replace(/\s+/g, " ");
@@ -76,7 +124,8 @@ async function renderSuggest() {
   suggestListEl.innerHTML = "";
   const visible = list.slice(0, 10);
   for (let i = 0; i < visible.length; i++) {
-    suggestListEl.appendChild(createSuggestItem(visible[i], i === 0 ? "Enter" : ""));
+    const meta = i === 0 ? (I18N[currentLang] || I18N.en).enter : "";
+    suggestListEl.appendChild(createSuggestItem(visible[i], meta));
   }
   if (visible.length) showSuggest();
   else hideSuggest();
@@ -85,7 +134,7 @@ async function renderSuggest() {
 function setLoading(loading) {
   goBtn.disabled = !!loading;
   input.disabled = !!loading;
-  goBtn.textContent = loading ? "路由中…" : goLabel;
+  goBtn.textContent = loading ? routingLabel : goLabel;
 }
 
 function fillTemplate(tpl, q) {
@@ -137,7 +186,14 @@ clearHistoryBtn.addEventListener("click", async () => {
   await renderSuggest();
 });
 
-setTimeout(() => {
-  input.focus();
-  input.setSelectionRange(input.value.length, input.value.length);
-}, 40);
+Promise.resolve()
+  .then(async () => {
+    const lang = await loadUiLanguage();
+    applyI18n(lang);
+  })
+  .finally(() => {
+    setTimeout(() => {
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    }, 40);
+  });

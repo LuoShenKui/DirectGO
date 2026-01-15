@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -243,7 +243,7 @@
   </head>
   <body>
     <div class="topbar">
-      <button id="openSettings" class="icon-btn" aria-label="设置">
+      <button id="openSettings" class="icon-btn" aria-label="Settings">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
           <path
             d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"
@@ -286,13 +286,13 @@
                 spellcheck="false"
                 placeholder="DirectGO！"
               />
-              <button id="go" class="go">搜索</button>
+              <button id="go" class="go">Search</button>
             </div>
 
             <div id="suggest" class="suggest hidden" role="listbox">
               <div class="suggest-head">
-                <div class="suggest-title">最近搜索</div>
-                <button id="clearHistory" class="link-btn" type="button">清空</button>
+                <div id="suggestTitle" class="suggest-title">Recent searches</div>
+                <button id="clearHistory" class="link-btn" type="button">Clear</button>
               </div>
               <div id="suggestList" class="suggest-list"></div>
             </div>
