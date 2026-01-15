@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "DirectGO",
+  "version": "0.1.0",
+  "description": "把搜索框变成意图路由器：直达或站内搜。",
+  "icons": { "16": "DirectGO.png", "48": "DirectGO.png", "128": "DirectGO.png" },
+  "permissions": ["storage"],
+  "host_permissions": ["https://*/*", "http://localhost/*", "http://127.0.0.1/*"],
+  "background": { "service_worker": "background.js" },
+  "omnibox": { "keyword": "dg" },
+  "options_page": "options.html",
+  "chrome_url_overrides": { "newtab": "newtab.html" }
+}
