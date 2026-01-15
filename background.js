@@ -93,15 +93,16 @@ function isDisallowedAiDecisionUrl(rawUrl) {
   try {
     const u = new URL(String(rawUrl));
     const host = u.hostname.toLowerCase();
-    if (
-      host === "google.com" ||
-      host.endsWith(".google.com") ||
-      host.startsWith("google.") ||
-      host.startsWith("www.google.") ||
-      host.includes(".google.")
-    )
-      return true;
-    if (host === "bing.com" || host.endsWith(".bing.com")) return true;
+    if (host === "bing.com" || host.endsWith(".bing.com")) {
+      if ((u.pathname || "").startsWith("/search")) return true;
+      return false;
+    }
+    if (host === "google.com" || host.endsWith(".google.com") || host.startsWith("google.")) {
+      const path = u.pathname || "";
+      if (path.startsWith("/search")) return true;
+      if (path === "/" && (u.searchParams.get("q") || "").trim()) return true;
+      return false;
+    }
     return false;
   } catch (e) {
     return false;

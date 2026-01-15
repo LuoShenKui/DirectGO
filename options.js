@@ -34,9 +34,10 @@ const I18N = {
     labelModel: "Model",
     labelApiKey: "API Key",
     hintApiKey: "Stored locally (chrome.storage.local), not synced",
+    hintApiKeyPrivacy: "Your search text will be sent to the model provider. If you mind, do not enter it.",
     labelPreferExactKeywordJump: "Force jump on exact keyword only",
     labelOpenFirstResultOnSupportedSearch: "Open first result on supported platforms",
-    labelAllowedDomains: "First-result allowlist domains (one per line)",
+    labelAllowedDomains: "result allowlist domains (one per line)",
     hintAllowedDomains: "Only tries “open first result” on these domains",
     labelFallbackSearchEngine: "Fallback search engine",
     labelKeywords: "Keywords (one per line)",
@@ -57,9 +58,10 @@ const I18N = {
     labelModel: "模型",
     labelApiKey: "API Key",
     hintApiKey: "Key 存在本地（chrome.storage.local），不会同步到其它设备",
+    hintApiKeyPrivacy: "您的搜索词会发给大模型厂商，介意者请勿填写。",
     labelPreferExactKeywordJump: "唯一词命中时强制跳转（仅输入关键词时）",
     labelOpenFirstResultOnSupportedSearch: "站内搜索自动打开首条结果（大平台白名单）",
-    labelAllowedDomains: "首条直达白名单域名（每行一个）",
+    labelAllowedDomains: "直达白名单域名（每行一个）",
     hintAllowedDomains: "仅对这些域名的“搜索页”尝试抓取首条结果并直达",
     labelFallbackSearchEngine: "兜底搜索引擎",
     labelKeywords: "唯一词（每行一条）",
@@ -90,6 +92,7 @@ function applyI18n(lang) {
   document.getElementById("labelModel").textContent = t.labelModel;
   document.getElementById("labelApiKey").textContent = t.labelApiKey;
   document.getElementById("hintApiKey").textContent = t.hintApiKey;
+  document.getElementById("hintApiKeyPrivacy").textContent = t.hintApiKeyPrivacy;
   document.getElementById("labelPreferExactKeywordJump").textContent = t.labelPreferExactKeywordJump;
   document.getElementById("labelOpenFirstResultOnSupportedSearch").textContent =
     t.labelOpenFirstResultOnSupportedSearch;

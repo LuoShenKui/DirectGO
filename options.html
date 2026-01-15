@@ -92,6 +92,26 @@
         color: #202124;
       }
 
+      .labelRow {
+        display: flex;
+        align-items: baseline;
+        justify-content: flex-start;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .labelRow #labelApiKey {
+        color: #202124;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .labelRow #hintApiKeyPrivacy {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 650;
+      }
+
       .inline {
         display: flex;
         align-items: center;
@@ -192,7 +212,10 @@
           </div>
 
           <div class="row">
-            <label id="labelApiKey" for="apiKey">API Key</label>
+            <label class="labelRow" for="apiKey">
+              <span id="labelApiKey">API Key</span>
+              <span id="hintApiKeyPrivacy">Your search text will be sent to the model provider. If you mind, do not enter it.</span>
+            </label>
             <input id="apiKey" type="password" placeholder="sk-..." />
             <div id="hintApiKey" class="hint">Stored locally (chrome.storage.local), not synced</div>
           </div>
